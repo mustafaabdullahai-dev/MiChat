@@ -1,0 +1,17 @@
+# Secrets / env
+.env
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Logs / OS
+*.log
+.DS_Store
+
+# Saved conversations
+data/

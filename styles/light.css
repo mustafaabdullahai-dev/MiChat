@@ -1,0 +1,47 @@
+/* MiChat · light theme
+   Only the palette changes — component skins live in app.css and read these
+   variables, so both themes stay in sync from one place. */
+
+:root {
+  --bg: #ffffff;
+  --sidebar: #f7f7f8;
+  --surface: #f4f4f5;
+  --surface-hover: #e9e9ec;
+  --border: #e4e4e7;
+  --text: #18181b;
+  --text-2: #52525b;
+  --muted: #71717a;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --success: #16a34a;
+  --error: #dc2626;
+  --on-accent: #ffffff;
+  --code-bg: #f4f4f5;
+  --shadow: 0 4px 16px rgba(24, 24, 27, 0.08);
+  --composer-shadow: 0 2px 10px rgba(24, 24, 27, 0.06);
+}
+
+/* focus ring tuned for light */
+[data-testid="stChatInput"]:focus-within {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15), var(--composer-shadow);
+}
+[data-testid="stTextInput"] input:focus,
+[data-testid="stTextArea"] textarea:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14) !important;
+}
+
+/* inputs sit on white in light mode for crisper contrast */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea,
+[data-testid="stTextInputRootElement"],
+[data-testid="stTextAreaRootElement"] {
+  background: #ffffff !important;
+}
+
+/* code blocks read better slightly deeper than the page */
+[data-testid="stChatMessage"] pre,
+[data-testid="stCodeBlock"] pre { background: #fafafa !important; }
+
+/* sidebar text + status */
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { color: var(--text); }
+[data-testid="stSidebar"] .lc-status-line.warn { color: #b45309; }

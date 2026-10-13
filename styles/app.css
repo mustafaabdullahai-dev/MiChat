@@ -1,0 +1,881 @@
+/* ============================================================
+   MiChat · AI workspace design system (dark default)
+   Palette-driven: dark values in :root, overridden by light.css
+   ============================================================ */
+
+:root {
+  --sidebar-w: 300px;
+  --chat-w: 1000px;
+  --bg: #0d0d0d;
+  --sidebar: #111111;
+  --surface: #181818;
+  --surface-hover: #202020;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-2: #a1a1aa;
+  --muted: #71717a;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --success: #22c55e;
+  --error: #ef4444;
+  --on-accent: #ffffff;
+  --code-bg: #181818;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --composer-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Base ---------- */
+.stApp {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+[data-testid="stHeader"] { display: none !important; }
+[data-testid="stFooter"] { display: none !important; }
+
+[data-testid="stMainBlockContainer"] {
+  max-width: 1160px !important;
+  margin: 0 auto !important;
+  padding-top: 0.25rem !important;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); background-clip: padding-box; }
+
+/* ---------- Header ---------- */
+/* Streamlit's own sidebar header (logo spacer + collapse control) is unused:
+   MiChat renders its own logo and the toggle lives in the app header. */
+[data-testid="stSidebarHeader"] { display: none !important; }
+[data-testid="stSidebarCollapseButton"] { display: none !important; }
+
+/* The toggle hangs in the gutter left of the content column so the brand,
+   messages and composer all share one left edge. */
+[data-testid="stMainBlockContainer"] { position: relative; }
+.st-key-sidebar_toggle {
+  position: absolute !important;
+  left: 2.15rem;
+  top: 2.55rem;
+  margin: 0 !important;
+  z-index: 6;
+}
+/* Streamlit ships two label wrappers and hides them on small viewports:
+   show only the first so the glyph appears exactly once */
+.st-key-sidebar_toggle [data-testid="stButton"] > div:first-child {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.st-key-sidebar_toggle [data-testid="stButton"] > div + div { display: none !important; }
+.st-key-sidebar_toggle button {
+  width: 30px !important;
+  min-width: 30px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  color: var(--text-2) !important;
+  font-size: 0.8rem !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.st-key-sidebar_toggle button:hover {
+  background: var(--surface-hover) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+.st-key-sidebar_toggle button:active { transform: none !important; }
+
+.lc-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0 0.45rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.6rem;
+  animation: lc-fade 180ms ease both;
+}
+.lc-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.lc-brand .lc-logo-mark {
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+.lc-brand .lc-brand-sub {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.86rem;
+  padding-left: 0.45rem;
+  border-left: 1px solid var(--border);
+  margin-left: 0.15rem;
+}
+.lc-model-pill {
+  font-size: 0.8rem;
+  color: var(--text-2);
+}
+
+/* ---------- Empty state ---------- */
+.lc-empty {
+  text-align: center;
+  padding: 4.2rem 0 1rem;
+  animation: lc-fade 220ms ease both;
+}
+.lc-logo {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 1rem;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--accent);
+  box-shadow: var(--shadow);
+}
+.lc-empty h1 {
+  margin: 0 0 0.45rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.lc-empty p {
+  margin: 0 auto;
+  max-width: 520px;
+  color: var(--text-2);
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+.lc-try {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 1.6rem 0 0.6rem;
+}
+
+/* suggestion tiles */
+[data-testid="stMainBlockContainer"] div[data-testid="stButton"] > button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 400;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  height: auto;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+[data-testid="stMainBlockContainer"] div[data-testid="stButton"] > button:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+[data-testid="stMainBlockContainer"] div[data-testid="stButton"] > button:active { transform: translateY(0); }
+
+/* ---------- Messages ---------- */
+[data-testid="stChatMessage"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  max-width: 100% !important;
+  padding: 0.5rem 0 !important;
+  margin: 0.4rem 0;
+  animation: lc-fade 180ms ease both;
+}
+
+/* user turn: right-aligned bubble that hugs its content */
+[data-testid="stChatMessage"]:has(.lc-marker-user) {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+  padding: 0.7rem 1rem 0.8rem !important;
+  margin: 0.5rem 0 0.9rem auto !important;
+  width: fit-content !important;
+  max-width: min(78%, 68ch) !important;
+}
+[data-testid="stChatMessage"]:has(.lc-marker-user) > div:first-child {
+  display: none !important;
+}
+.lc-marker { display: none; }
+
+/* readable line length for prose; code blocks and tables stay full width */
+[data-testid="stChatMessage"] p,
+[data-testid="stChatMessage"] li,
+[data-testid="stChatMessage"] blockquote,
+[data-testid="stChatMessage"] h1,
+[data-testid="stChatMessage"] h2,
+[data-testid="stChatMessage"] h3,
+[data-testid="stChatMessage"] h4,
+[data-testid="stChatMessage"] ul,
+[data-testid="stChatMessage"] ol {
+  max-width: 68ch;
+}
+[data-testid="stChatMessage"] pre,
+[data-testid="stChatMessage"] table,
+[data-testid="stChatMessage"] [data-testid="stCodeBlock"] {
+  max-width: 100% !important;
+}
+
+.lc-msg-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+[data-testid="stChatMessage"]:has(.lc-marker-user) .lc-msg-label { color: var(--text-2); }
+
+[data-testid="stChatMessage"] p,
+[data-testid="stChatMessage"] li,
+[data-testid="stChatMessage"] td {
+  color: var(--text);
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+[data-testid="stChatMessage"] p { margin-bottom: 0.7rem; }
+[data-testid="stChatMessage"] h1,
+[data-testid="stChatMessage"] h2,
+[data-testid="stChatMessage"] h3 { color: var(--text); font-weight: 600; letter-spacing: -0.01em; }
+[data-testid="stChatMessage"] blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.9rem;
+  color: var(--text-2);
+}
+[data-testid="stChatMessage"] table { border-collapse: collapse; }
+[data-testid="stChatMessage"] th,
+[data-testid="stChatMessage"] td { border: 1px solid var(--border); padding: 0.4rem 0.6rem; }
+
+/* assistant avatar hangs in the left gutter so the answer text lines up
+   with the user text; the label + body share one left edge */
+[data-testid="stChatMessage"]:has(.lc-marker-bot) > div:first-child {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  align-self: flex-start;
+  margin-left: -40px;
+}
+[data-testid="stChatMessage"]:has(.lc-marker-bot) [data-testid="stChatMessageContent"] {
+  margin-left: 1rem !important;
+}
+[data-testid="stChatMessage"]:has(.lc-marker-bot) > div:first-child * {
+  border-radius: 10px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* streaming caret */
+.lc-caret {
+  color: var(--accent);
+  animation: lc-blink 1s steps(1) infinite;
+  font-weight: 600;
+}
+@keyframes lc-blink { 50% { opacity: 0; } }
+@keyframes lc-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* message actions */
+.lc-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.35rem 0 0.15rem 1rem;
+}
+.lc-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 32px;
+  padding: 0 0.7rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.lc-act:hover {
+  background: var(--surface-hover);
+  border-color: var(--muted);
+  color: var(--text);
+}
+.lc-act.is-done {
+  color: var(--success);
+  border-color: var(--success);
+}
+/* hidden Streamlit trigger that the Regenerate button proxies to */
+.st-key-act_regen { display: none; }
+
+/* the JS bridge iframes are plumbing, not UI — collapse them completely */
+[data-testid="stIFrame"],
+[data-testid="stIFrame"] + div {
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+}
+div[data-testid="stElementContainer"]:has(> div > [data-testid="stIFrame"]) {
+  height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+/* ---------- Code blocks ---------- */
+[data-testid="stChatMessage"] pre,
+[data-testid="stCodeBlock"] pre {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+[data-testid="stChatMessage"] pre code,
+[data-testid="stCodeBlock"] code {
+  background: transparent !important;
+  border: none !important;
+  font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.855rem;
+  color: var(--text);
+}
+[data-testid="stChatMessage"] code:not(pre code),
+[data-testid="stMarkdownContainer"] :not(pre) > code {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.85em;
+}
+
+/* ---------- Composer ---------- */
+[data-testid="stChatInput"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--composer-shadow);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  max-width: var(--chat-w) !important;
+  margin: 0 auto !important;
+}
+[data-testid="stChatInput"]:focus-within {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18), var(--composer-shadow);
+}
+[data-testid="stChatInput"] *:focus-visible { outline: none !important; }
+[data-testid="stChatInput"] div[data-baseweb="base-input"],
+[data-testid="stChatInput"] > div:first-child {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+[data-testid="stChatInput"] textarea {
+  color: var(--text) !important;
+  font-size: 0.97rem;
+  background: transparent !important;
+}
+[data-testid="stChatInput"] textarea::placeholder { color: var(--muted); }
+[data-testid="stChatInput"] button {
+  background: var(--accent) !important;
+  color: var(--on-accent) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  width: 34px !important;
+  height: 34px !important;
+  box-shadow: none !important;
+  transition: background 150ms ease, transform 150ms ease;
+}
+[data-testid="stChatInput"] button:hover:enabled { background: var(--accent-hover) !important; transform: translateY(-1px); }
+[data-testid="stChatInput"] button:disabled { background: var(--surface-hover) !important; color: var(--muted) !important; }
+
+/* ---------- Sidebar ---------- */
+[data-testid="stSidebar"] {
+  background: var(--sidebar) !important;
+  border-right: 1px solid var(--border);
+  width: var(--sidebar-w) !important;
+  min-width: var(--sidebar-w) !important;
+}
+section[data-testid="stSidebar"] { 
+  padding-top: 0.9rem; 
+  padding-bottom: 0.9rem; 
+}
+section[data-testid="stSidebar"] { 
+  padding-top: 0.9rem; 
+  padding-bottom: 0.9rem; 
+  height: 100vh;
+}
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 { display: none; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { color: var(--text); }
+
+[data-testid="stSidebarContent"] {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+[data-testid="stSidebarUserContent"] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: 0.5rem !important;
+}
+[data-testid="stSidebarUserContent"] > div,
+[data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Push profile + status to the bottom of the sidebar */
+[data-testid="stSidebarUserContent"] [data-testid="stVerticalBlock"]
+  > div:has(.lc-profile) { margin-top: auto; }
+
+
+
+.lc-side-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 0.15rem 0.2rem 0.75rem;
+}
+.lc-side-logo .lc-logo-mark { color: var(--accent); }
+
+.lc-side-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0.85rem 0 0.3rem;
+}
+.lc-side-spacer { height: 0.6rem; }
+.lc-side-bottom {
+  border-top: 1px solid var(--border);
+  margin-top: 0.85rem;
+  padding-top: 0.55rem;
+}
+
+.lc-chat-item {
+  font-size: 0.86rem;
+  color: var(--text-2);
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.1rem;
+  transition: background 150ms ease;
+}
+.lc-chat-item.active {
+  background: var(--surface-hover);
+  color: var(--text);
+  font-weight: 500;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+section[data-testid="stSidebar"] div[data-testid="stButton"] > button {
+  width: 100%;
+  min-height: 38px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--text-2);
+  font-size: 0.86rem;
+  font-weight: 400;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 150ms ease, color 150ms ease;
+}
+section[data-testid="stSidebar"] div[data-testid="stButton"] > button:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+  border: 1px solid transparent;
+  transform: none;
+}
+/* New chat — prominent but not oversized */
+section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="primary"],
+section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="secondary"] {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="primary"]:hover,
+section[data-testid="stSidebar"] div[data-testid="stButton"] > button[kind="secondary"]:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+section[data-testid="stSidebar"] div[data-testid="stExpander"],
+[data-testid="stExpander"] {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+[data-testid="stExpander"] summary {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem !important;
+  justify-content: flex-start !important;
+  padding: 0.5rem 0.75rem !important;
+}
+[data-testid="stExpander"] summary > span:first-child {
+  flex-shrink: 0;
+}
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p,
+section[data-testid="stSidebar"] label {
+  font-size: 0.78rem !important;
+  color: var(--text-2) !important;
+  font-weight: 500;
+}
+section[data-testid="stSidebar"] .stSlider { margin-bottom: -0.3rem; }
+section[data-testid="stSidebar"] hr { border-color: var(--border); margin: 0.5rem 0; }
+section[data-testid="stSidebar"] .stCodeBlock,
+section[data-testid="stSidebar"] code { font-size: 0.72rem; }
+
+.lc-side-btn-row { display: flex; gap: 0.4rem; }
+.lc-status-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.55rem;
+}
+.lc-status-line .lc-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--success);
+}
+.lc-status-line.warn .lc-dot { background: #f59e0b; }
+.lc-status-line.warn { color: #fbbf24; }
+[data-testid="stSidebar"] .lc-status-line.warn { color: #fbbf24; }
+
+.lc-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.85rem;
+  color: var(--text-2);
+  padding: 0.5rem 0.15rem 0.1rem;
+}
+.lc-profile .lc-avatar {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 600;
+}
+.lc-profile .lc-role { color: var(--muted); font-size: 0.72rem; display: block; }
+
+/* ---------- Generic widgets (both themes) ---------- */
+/* Streamlit paints native widgets from .streamlit/config.toml, which is a
+   single fixed theme. Re-skin them from the active palette instead. */
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stBottomBlockContainer"],
+div:has(> [data-testid="stBottomBlockContainer"]) {
+  background: var(--bg) !important;
+}
+
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea,
+[data-testid="stTextInputRootElement"],
+[data-testid="stTextAreaRootElement"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: 8px !important;
+}
+[data-testid="stTextInput"] input:focus,
+[data-testid="stTextArea"] textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+  outline: none !important;
+}
+[data-testid="stTextInput"] input::placeholder,
+[data-testid="stTextArea"] textarea::placeholder { color: var(--muted) !important; }
+
+/* selectbox (react-aria based in Streamlit 1.6x) */
+[data-testid="stSelectbox"] > div,
+[data-testid="stSelectbox"] div:has(> button) {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  color: var(--text) !important;
+  min-height: 2.1rem;
+}
+[data-testid="stSelectbox"] button,
+[data-testid="stSelectbox"] button span {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+/* Streamlit 1.6x renders the selected value inside an <input> */
+[data-testid="stSelectbox"] input {
+  background: transparent !important;
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: var(--text) !important;
+}
+[data-testid="stSelectbox"] [data-testid="stIconMaterial"] { color: var(--muted) !important; }
+[role="listbox"],
+[data-testid="stSelectboxVirtualDropdown"] {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+[role="option"]:hover { background: var(--surface-hover) !important; }
+
+/* sliders */
+[data-testid="stSlider"] [role="group"] { background: transparent !important; }
+[data-testid="stSliderThumbValue"] { color: var(--accent) !important; }
+[data-testid="stSliderTickBar"] [data-testid="stMarkdownContainer"] p { color: var(--muted) !important; }
+
+/* expander chrome */
+[data-testid="stExpander"] summary { background: var(--surface) !important; color: var(--text) !important; }
+[data-testid="stExpander"] summary * { background: transparent !important; }
+[data-testid="stExpander"] summary { background: var(--surface) !important; }
+[data-testid="stExpander"] summary [data-testid="stMarkdownContainer"] p,
+[data-testid="stExpander"] summary p { color: var(--text) !important; }
+[data-testid="stExpander"] summary [data-testid="stIconMaterial"] { color: var(--muted) !important; }
+[data-testid="stExpander"] { background: var(--surface) !important; border-color: var(--border) !important; }
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] { background: transparent !important; color: var(--text) !important; }
+
+div[data-baseweb="base-input"],
+div[data-baseweb="select"] > div {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+div[data-baseweb="base-button"] { transition: all 150ms ease; }
+
+/* header model selector = compact pill */
+.lc-model-select div[data-baseweb="select"] > div {
+  border-radius: 8px;
+  min-height: 2.1rem;
+  font-size: 0.84rem;
+  background: var(--surface) !important;
+}
+.lc-model-select label p { color: var(--muted) !important; font-size: 0.72rem !important; }
+
+/* buttons (generic) */
+div[data-testid="stButton"] > button {
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+div[data-testid="stDownloadButton"] > button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+div[data-testid="stDownloadButton"] > button:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+}
+
+/* alerts */
+[data-testid="stAlert"] { border-radius: 10px; font-size: 0.9rem; border-color: var(--border); }
+[data-testid="stMarkdown"] a { color: var(--accent-hover); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  [data-testid="stMainBlockContainer"] {
+    max-width: 100% !important;
+    padding-left: 0.9rem !important;
+    padding-right: 0.9rem !important;
+  }
+  .lc-empty { padding-top: 2.2rem; }
+  .lc-empty h1 { font-size: 1.4rem; }
+  .lc-brand .lc-brand-sub { display: none; }
+
+  /* the sidebar becomes a drawer over the content, so the toggle has to sit
+     on top of it (top-right, where the drawer has no content) */
+  .st-key-sidebar_toggle {
+    position: fixed !important;
+    top: 0.6rem;
+    right: 0.6rem;
+    left: auto !important;
+    z-index: 1000005;
+  }
+  [data-testid="stChatMessage"]:has(.lc-marker-bot) > div:first-child {
+    margin-left: -2.9rem;
+  }
+  [data-testid="stChatMessage"]:has(.lc-marker-bot) [data-testid="stChatMessageContent"] {
+    margin-left: 0.5rem !important;
+  }
+  .lc-actions { margin-left: 0.5rem; }
+  [data-testid="stChatInput"] {
+    max-width: 100% !important;
+    border-radius: 14px !important;
+  }
+  [data-testid="stChatInput"] button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+@media (max-width: 480px) {
+  [data-testid="stMainBlockContainer"] div[data-testid="stButton"] > button {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+}
+
+/* ---------- Message meta, inline actions, editor ---------- */
+.lc-msg-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+.lc-msg-time {
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted);
+  opacity: 0.75;
+}
+.lc-msg-meta {
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+/* per-message action rows: small chips aligned with the bubble above them */
+[data-testid="stMainBlockContainer"] div[class*="st-key-edit_"] button,
+[data-testid="stMainBlockContainer"] div[class*="st-key-branch_"] button {
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 0.7rem !important;
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  color: var(--text-2) !important;
+  font-size: 0.74rem !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease !important;
+}
+[data-testid="stMainBlockContainer"] div[class*="st-key-edit_"] button:hover,
+[data-testid="stMainBlockContainer"] div[class*="st-key-branch_"] button:hover {
+  background: var(--surface-hover) !important;
+  border-color: var(--muted) !important;
+  color: var(--text) !important;
+  transform: none !important;
+}
+[data-testid="stMainBlockContainer"] .st-key-edit_send button,
+[data-testid="stMainBlockContainer"] .st-key-edit_cancel button {
+  height: 30px !important;
+  font-size: 0.78rem !important;
+}
+
+/* inline editor */
+.lc-edit {
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 0.75rem 0.85rem 0.5rem;
+  margin: 0.4rem 0 0.9rem;
+  max-width: 68ch;
+}
+.lc-edit-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+}
+.lc-edit textarea { font-size: 0.92rem !important; }
+
+/* scroll-to-latest button (injected by the bridge script) */
+#lc-scroll-bottom {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 6.2rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 160ms ease, transform 160ms ease, background 160ms ease;
+  box-shadow: var(--shadow);
+  z-index: 40;
+}
+#lc-scroll-bottom.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+#lc-scroll-bottom:hover { background: var(--surface-hover); color: var(--text); }
+@media (max-width: 768px) {
+  #lc-scroll-bottom { right: 0.9rem; bottom: 5.6rem; }
+}
+
+.lc-storage {
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding: 0 0.15rem 0.2rem;
+}
