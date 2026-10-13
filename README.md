@@ -167,3 +167,7 @@ branching, settings, URL preferences, suggestion chips and export.
   click cannot be handled while a stream is in flight.
 - No multi-user support; history is shared through one local data directory.
 - No rate limiting or spend cap on API usage.
+
+---
+
+#GenAIwithAM
