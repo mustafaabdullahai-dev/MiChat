@@ -170,4 +170,4 @@ branching, settings, URL preferences, suggestion chips and export.
 
 ---
 
-#GenAIwithAM
+**#GenAIwithAM** — GenAI, LLM and AI-agent projects by Abdullah Mustafa.
